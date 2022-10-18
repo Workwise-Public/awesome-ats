@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "Nothing in this folder is supposed to be reviewed.",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,5 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "typescript": "^4.8.4"
   }
 }
