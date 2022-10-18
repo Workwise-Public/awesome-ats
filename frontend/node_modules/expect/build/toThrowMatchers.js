@@ -4,10 +4,15 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 exports.default = exports.createMatcher = void 0;
-var _expectUtils = require('@jest/expect-utils');
+
 var _jestMatcherUtils = require('jest-matcher-utils');
+
 var _jestMessageUtil = require('jest-message-util');
+
 var _print = require('./print');
+
+var _utils = require('./utils');
+
 /**
  * Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
  *
@@ -17,11 +22,12 @@ var _print = require('./print');
  */
 
 /* eslint-disable local/ban-types-eventually */
-
 const DID_NOT_THROW = 'Received function did not throw';
+
 const getThrown = e => {
   const hasMessage =
     e !== null && e !== undefined && typeof e.message === 'string';
+
   if (hasMessage && typeof e.name === 'string' && typeof e.stack === 'string') {
     return {
       hasMessage,
@@ -30,6 +36,7 @@ const getThrown = e => {
       value: e
     };
   }
+
   return {
     hasMessage,
     isError: false,
@@ -37,6 +44,7 @@ const getThrown = e => {
     value: e
   };
 };
+
 const createMatcher = (matcherName, fromPromise) =>
   function (received, expected) {
     const options = {
@@ -44,7 +52,8 @@ const createMatcher = (matcherName, fromPromise) =>
       promise: this.promise
     };
     let thrown = null;
-    if (fromPromise && (0, _expectUtils.isError)(received)) {
+
+    if (fromPromise && (0, _utils.isError)(received)) {
       thrown = getThrown(received);
     } else {
       if (typeof received !== 'function') {
@@ -77,6 +86,7 @@ const createMatcher = (matcherName, fromPromise) =>
         }
       }
     }
+
     if (expected === undefined) {
       return toThrow(matcherName, options, thrown);
     } else if (typeof expected === 'function') {
@@ -113,16 +123,17 @@ const createMatcher = (matcherName, fromPromise) =>
       );
     }
   };
+
 exports.createMatcher = createMatcher;
 const matchers = {
   toThrow: createMatcher('toThrow'),
   toThrowError: createMatcher('toThrowError')
 };
+
 const toThrowExpectedRegExp = (matcherName, options, thrown, expected) => {
   const pass = thrown !== null && expected.test(thrown.message);
   const message = pass
     ? () =>
-        // eslint-disable-next-line prefer-template
         (0, _jestMatcherUtils.matcherHint)(
           matcherName,
           undefined,
@@ -140,7 +151,6 @@ const toThrowExpectedRegExp = (matcherName, options, thrown, expected) => {
             ) + formatStack(thrown)
           : formatReceived('Received value:       ', thrown, 'value'))
     : () =>
-        // eslint-disable-next-line prefer-template
         (0, _jestMatcherUtils.matcherHint)(
           matcherName,
           undefined,
@@ -150,7 +160,7 @@ const toThrowExpectedRegExp = (matcherName, options, thrown, expected) => {
         '\n\n' +
         formatExpected('Expected pattern: ', expected) +
         (thrown === null
-          ? `\n${DID_NOT_THROW}`
+          ? '\n' + DID_NOT_THROW
           : thrown.hasMessage
           ? formatReceived('Received message: ', thrown, 'message') +
             formatStack(thrown)
@@ -160,11 +170,11 @@ const toThrowExpectedRegExp = (matcherName, options, thrown, expected) => {
     pass
   };
 };
+
 const toThrowExpectedAsymmetric = (matcherName, options, thrown, expected) => {
   const pass = thrown !== null && expected.asymmetricMatch(thrown.value);
   const message = pass
     ? () =>
-        // eslint-disable-next-line prefer-template
         (0, _jestMatcherUtils.matcherHint)(
           matcherName,
           undefined,
@@ -180,7 +190,6 @@ const toThrowExpectedAsymmetric = (matcherName, options, thrown, expected) => {
             formatStack(thrown)
           : formatReceived('Thrown value: ', thrown, 'value'))
     : () =>
-        // eslint-disable-next-line prefer-template
         (0, _jestMatcherUtils.matcherHint)(
           matcherName,
           undefined,
@@ -202,11 +211,11 @@ const toThrowExpectedAsymmetric = (matcherName, options, thrown, expected) => {
     pass
   };
 };
+
 const toThrowExpectedObject = (matcherName, options, thrown, expected) => {
   const pass = thrown !== null && thrown.message === expected.message;
   const message = pass
     ? () =>
-        // eslint-disable-next-line prefer-template
         (0, _jestMatcherUtils.matcherHint)(
           matcherName,
           undefined,
@@ -219,7 +228,6 @@ const toThrowExpectedObject = (matcherName, options, thrown, expected) => {
           ? formatStack(thrown)
           : formatReceived('Received value:       ', thrown, 'value'))
     : () =>
-        // eslint-disable-next-line prefer-template
         (0, _jestMatcherUtils.matcherHint)(
           matcherName,
           undefined,
@@ -228,13 +236,11 @@ const toThrowExpectedObject = (matcherName, options, thrown, expected) => {
         ) +
         '\n\n' +
         (thrown === null
-          ? // eslint-disable-next-line prefer-template
-            formatExpected('Expected message: ', expected.message) +
+          ? formatExpected('Expected message: ', expected.message) +
             '\n' +
             DID_NOT_THROW
           : thrown.hasMessage
-          ? // eslint-disable-next-line prefer-template
-            (0, _jestMatcherUtils.printDiffOrStringify)(
+          ? (0, _jestMatcherUtils.printDiffOrStringify)(
               expected.message,
               thrown.message,
               'Expected message',
@@ -250,11 +256,11 @@ const toThrowExpectedObject = (matcherName, options, thrown, expected) => {
     pass
   };
 };
+
 const toThrowExpectedClass = (matcherName, options, thrown, expected) => {
   const pass = thrown !== null && thrown.value instanceof expected;
   const message = pass
     ? () =>
-        // eslint-disable-next-line prefer-template
         (0, _jestMatcherUtils.matcherHint)(
           matcherName,
           undefined,
@@ -282,7 +288,6 @@ const toThrowExpectedClass = (matcherName, options, thrown, expected) => {
             formatStack(thrown)
           : formatReceived('Received value: ', thrown, 'value'))
     : () =>
-        // eslint-disable-next-line prefer-template
         (0, _jestMatcherUtils.matcherHint)(
           matcherName,
           undefined,
@@ -295,31 +300,29 @@ const toThrowExpectedClass = (matcherName, options, thrown, expected) => {
           expected
         ) +
         (thrown === null
-          ? `\n${DID_NOT_THROW}`
-          : `${
-              thrown.value != null &&
-              typeof thrown.value.constructor === 'function'
-                ? (0, _print.printReceivedConstructorName)(
-                    'Received constructor',
-                    thrown.value.constructor
-                  )
-                : ''
-            }\n${
-              thrown.hasMessage
-                ? formatReceived('Received message: ', thrown, 'message') +
-                  formatStack(thrown)
-                : formatReceived('Received value: ', thrown, 'value')
-            }`);
+          ? '\n' + DID_NOT_THROW
+          : (thrown.value != null &&
+            typeof thrown.value.constructor === 'function'
+              ? (0, _print.printReceivedConstructorName)(
+                  'Received constructor',
+                  thrown.value.constructor
+                )
+              : '') +
+            '\n' +
+            (thrown.hasMessage
+              ? formatReceived('Received message: ', thrown, 'message') +
+                formatStack(thrown)
+              : formatReceived('Received value: ', thrown, 'value')));
   return {
     message,
     pass
   };
 };
+
 const toThrowExpectedString = (matcherName, options, thrown, expected) => {
   const pass = thrown !== null && thrown.message.includes(expected);
   const message = pass
     ? () =>
-        // eslint-disable-next-line prefer-template
         (0, _jestMatcherUtils.matcherHint)(
           matcherName,
           undefined,
@@ -337,7 +340,6 @@ const toThrowExpectedString = (matcherName, options, thrown, expected) => {
             ) + formatStack(thrown)
           : formatReceived('Received value:         ', thrown, 'value'))
     : () =>
-        // eslint-disable-next-line prefer-template
         (0, _jestMatcherUtils.matcherHint)(
           matcherName,
           undefined,
@@ -347,7 +349,7 @@ const toThrowExpectedString = (matcherName, options, thrown, expected) => {
         '\n\n' +
         formatExpected('Expected substring: ', expected) +
         (thrown === null
-          ? `\n${DID_NOT_THROW}`
+          ? '\n' + DID_NOT_THROW
           : thrown.hasMessage
           ? formatReceived('Received message:   ', thrown, 'message') +
             formatStack(thrown)
@@ -357,11 +359,11 @@ const toThrowExpectedString = (matcherName, options, thrown, expected) => {
     pass
   };
 };
+
 const toThrow = (matcherName, options, thrown) => {
   const pass = thrown !== null;
   const message = pass
     ? () =>
-        // eslint-disable-next-line prefer-template
         (0, _jestMatcherUtils.matcherHint)(
           matcherName,
           undefined,
@@ -375,7 +377,6 @@ const toThrow = (matcherName, options, thrown) => {
             formatStack(thrown)
           : formatReceived('Thrown value: ', thrown, 'value'))
     : () =>
-        // eslint-disable-next-line prefer-template
         (0, _jestMatcherUtils.matcherHint)(
           matcherName,
           undefined,
@@ -389,49 +390,61 @@ const toThrow = (matcherName, options, thrown) => {
     pass
   };
 };
+
 const formatExpected = (label, expected) =>
-  `${label + (0, _jestMatcherUtils.printExpected)(expected)}\n`;
+  label + (0, _jestMatcherUtils.printExpected)(expected) + '\n';
+
 const formatReceived = (label, thrown, key, expected) => {
   if (thrown === null) {
     return '';
   }
+
   if (key === 'message') {
     const message = thrown.message;
+
     if (typeof expected === 'string') {
       const index = message.indexOf(expected);
+
       if (index !== -1) {
-        return `${
+        return (
           label +
           (0, _print.printReceivedStringContainExpectedSubstring)(
             message,
             index,
             expected.length
-          )
-        }\n`;
+          ) +
+          '\n'
+        );
       }
     } else if (expected instanceof RegExp) {
-      return `${
+      return (
         label +
         (0, _print.printReceivedStringContainExpectedResult)(
           message,
           typeof expected.exec === 'function' ? expected.exec(message) : null
-        )
-      }\n`;
+        ) +
+        '\n'
+      );
     }
-    return `${label + (0, _jestMatcherUtils.printReceived)(message)}\n`;
+
+    return label + (0, _jestMatcherUtils.printReceived)(message) + '\n';
   }
+
   if (key === 'name') {
     return thrown.isError
-      ? `${label + (0, _jestMatcherUtils.printReceived)(thrown.value.name)}\n`
+      ? label + (0, _jestMatcherUtils.printReceived)(thrown.value.name) + '\n'
       : '';
   }
+
   if (key === 'value') {
     return thrown.isError
       ? ''
-      : `${label + (0, _jestMatcherUtils.printReceived)(thrown.value)}\n`;
+      : label + (0, _jestMatcherUtils.printReceived)(thrown.value) + '\n';
   }
+
   return '';
 };
+
 const formatStack = thrown =>
   thrown === null || !thrown.isError
     ? ''
@@ -446,5 +459,6 @@ const formatStack = thrown =>
           noStackTrace: false
         }
       );
+
 var _default = matchers;
 exports.default = _default;
