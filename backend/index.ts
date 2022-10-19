@@ -3,24 +3,25 @@ const app = express();
 
 // endpoint for jobs (the missing feature to switch jobs that architecture doesnt allow)
 
-app.get("/stages", (req, res) => {
+app.get("/stages", (req: any, res: any) => {
   const stages: { id: number; title: string }[] = [];
 
   res.send("Return application stages");
 });
 
-app.get("/applicants", (req, res) => {
+app.get("/applicants", (req: any, res: any) => {
   const applicants: {
     id: number;
     current_stage_id: number;
     first_name: string;
     last_name: string;
+    description: string;
   }[] = [];
 
   res.send("Return application stages");
 });
 
-app.post("/applicant", (req, res) => {
+app.post("/applicant", (req: any, res: any) => {
   res.send("Return application stages");
 });
 
