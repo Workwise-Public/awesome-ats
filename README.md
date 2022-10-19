@@ -4,6 +4,8 @@ This is an application built to test refactoring skills of an engineer.
 
 Anything in backend/ folder is outside of the scope of the task. Its just for the sake of having a Database API. The app however requires it to be running in order to work properly.
 
+Updating data through the API does not work. All data is mocked.
+
 # How to run
 
 `node` & `npm` are required to run these applications.

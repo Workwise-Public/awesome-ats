@@ -1,5 +1,5 @@
 import { ReduxState } from "../store/store";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { memo, useState } from "react";
 
 export const Applicants = ({ stageId }: { stageId: number }) => {
@@ -30,7 +30,7 @@ export const Applicants = ({ stageId }: { stageId: number }) => {
       <p style={{ fontSize: "16px", fontWeight: "bold" }}>{stage?.title}</p>
 
       {applicantsB.map((applicant, index) => (
-        <Item key={index} applicant={applicant} />
+        <Item key={index} applicant={applicant} stageId={stageId} />
       ))}
     </div>
   );
@@ -38,7 +38,26 @@ export const Applicants = ({ stageId }: { stageId: number }) => {
 
 // Memo increase performance.
 const Item = memo(
-  ({ applicant }: { applicant: { name: string; description: string } }) => {
+  ({
+    applicant,
+    stageId,
+  }: {
+    applicant: { name: string; description: string; id: number };
+    stageId: number;
+  }) => {
+    const dispatch = useDispatch();
+    const nextStep = (() => {
+      switch (stageId) {
+        case 1:
+          return 2;
+        case 2:
+          return 3;
+        case 3:
+          return 4;
+        default:
+          return false;
+      }
+    })();
     return (
       <div
         style={{
@@ -48,9 +67,40 @@ const Item = memo(
         }}
       >
         <b>{applicant.name}</b>
-        <p>{applicant.description}</p>
-        <button>Delete</button> <button>Reject</button>{" "}
-        <button>Move to next step</button>
+        {/* Feature needed for allowing styling of an applicants description. */}
+        {/* Ignore dangerouslySetInnerHTML because its a html prop and we use react */}
+        <p dangerouslySetInnerHTML={{ __html: applicant.description }}></p>
+        <button
+          onClick={() =>
+            dispatch({ type: "deleteApplicant", payload: applicant.id })
+          }
+        >
+          Delete
+        </button>{" "}
+        {stageId !== 4 && stageId !== 5 && (
+          <button
+            onClick={() => {
+              dispatch({
+                type: "changeStage",
+                payload: { id: applicant.id, newStageId: 5 },
+              });
+            }}
+          >
+            Reject
+          </button>
+        )}{" "}
+        {nextStep && (
+          <button
+            onClick={() => {
+              dispatch({
+                type: "changeStage",
+                payload: { id: applicant.id, newStageId: nextStep },
+              });
+            }}
+          >
+            Move to next step
+          </button>
+        )}
       </div>
     );
   }
