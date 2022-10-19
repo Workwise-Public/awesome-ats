@@ -14,5 +14,5 @@ app.post("/applicant", function (req, res) {
 });
 var port = 8080;
 app.listen(port, function () {
-    console.log("Server is running in http://localhost:" + port);
+    console.log("Server is running on http://localhost:" + port);
 });
