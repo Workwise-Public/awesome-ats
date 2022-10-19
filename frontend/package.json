@@ -45,6 +45,7 @@
     ]
   },
   "devDependencies": {
-    "@types/axios": "^0.14.0"
+    "@types/axios": "^0.14.0",
+    "@types/react-modal": "^3.13.1"
   }
 }

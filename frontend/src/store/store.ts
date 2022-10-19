@@ -1,5 +1,6 @@
 import { createStore } from "redux";
-import { Applicants } from "../components/applicants";
+import axios from "axios";
+import { DATABASE_API_URL } from "../api/api";
 
 export interface ReduxState {
   stages: { id: number; title: string }[];
@@ -38,7 +39,6 @@ function stateReducer(
         ),
       };
     case "changeStage":
-      console.log(action.payload);
       const apl = state.applicants.find(
         (applicant) => applicant.id === action.payload.id
       );
@@ -51,6 +51,7 @@ function stateReducer(
             (applicant) => applicant.id !== action.payload.id
           ),
         ],
+        lastStateUpdate: new Date(),
       };
 
       if (apl) {
@@ -62,10 +63,21 @@ function stateReducer(
             ),
             { ...apl, current_stage_id: action.payload.newStageId },
           ],
+          lastStateUpdate: new Date(),
         };
       }
 
       return new_state;
+
+    case "loadNewApplicant":
+      // Update database to stay in sync.
+      axios.post(`${DATABASE_API_URL}/applicant`, action.payload);
+
+      return {
+        ...state,
+        applicants: [...state.applicants, action.payload],
+        lastStateUpdate: new Date(),
+      };
     default:
       return state;
   }
