@@ -3,7 +3,9 @@ import { useSelector } from "react-redux";
 import { memo, useState } from "react";
 
 export const Applicants = ({ stageId }: { stageId: number }) => {
-  const applicants = useSelector(({ applicants }: ReduxState) => applicants);
+  const applicants = useSelector(({ applicants }: ReduxState) =>
+    applicants.filter((applicant) => applicant.current_stage_id === stageId)
+  );
 
   const applicantsB = applicants.map(({ first_name, last_name, ...a }) => ({
     name: `${first_name} ${last_name}`,
@@ -11,7 +13,7 @@ export const Applicants = ({ stageId }: { stageId: number }) => {
   }));
 
   const stage = useSelector(({ stages }: ReduxState) => {
-    return stages.find((thisstage) => thisstage.id == stageId);
+    return stages.filter((thisstage) => thisstage.id == stageId)[0];
   });
 
   const [opened, open] = useState(false);
@@ -27,8 +29,8 @@ export const Applicants = ({ stageId }: { stageId: number }) => {
     >
       <p style={{ fontSize: "16px", fontWeight: "bold" }}>{stage?.title}</p>
 
-      {applicantsB.map((applicant) => (
-        <Item applicant={applicant} />
+      {applicantsB.map((applicant, index) => (
+        <Item key={index} applicant={applicant} />
       ))}
     </div>
   );
@@ -38,10 +40,17 @@ export const Applicants = ({ stageId }: { stageId: number }) => {
 const Item = memo(
   ({ applicant }: { applicant: { name: string; description: string } }) => {
     return (
-      <div>
+      <div
+        style={{
+          border: "1px solid lightgray",
+          padding: "10px",
+          marginBottom: "20px",
+        }}
+      >
         <b>{applicant.name}</b>
-
         <p>{applicant.description}</p>
+        <button>Delete</button> <button>Reject</button>{" "}
+        <button>Move to next step</button>
       </div>
     );
   }

@@ -9,28 +9,26 @@ export interface ReduxState {
     last_name: string;
     description: string;
   }[];
+  lastStateUpdate: Date | null;
 }
 
 function stateReducer(
   state: ReduxState = {
-    stages: [{ id: 1, title: "asd" }],
-    applicants: [
-      {
-        current_stage_id: 1,
-        description: "",
-        first_name: "",
-        id: 1,
-        last_name: "",
-      },
-    ],
+    stages: [],
+    applicants: [],
+    lastStateUpdate: null,
   },
   action: any
 ) {
   switch (action.type) {
-    case "loadApplications":
-      return { ...state, applicants: [] };
+    case "loadApplicants":
+      return {
+        ...state,
+        applicants: action.payload,
+        lastStateUpdate: new Date(),
+      };
     case "loadStages":
-      return { ...state, stages: [] };
+      return { ...state, stages: action.payload, lastStateUpdate: new Date() };
     default:
       return state;
   }
