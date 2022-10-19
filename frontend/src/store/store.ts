@@ -11,7 +11,21 @@ export interface ReduxState {
   }[];
 }
 
-function stateReducer(state = { stages: [], applicants: [] }, action: any) {
+function stateReducer(
+  state: ReduxState = {
+    stages: [{ id: 1, title: "asd" }],
+    applicants: [
+      {
+        current_stage_id: 1,
+        description: "",
+        first_name: "",
+        id: 1,
+        last_name: "",
+      },
+    ],
+  },
+  action: any
+) {
   switch (action.type) {
     case "loadApplications":
       return { ...state, applicants: [] };

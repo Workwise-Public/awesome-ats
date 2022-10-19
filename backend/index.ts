@@ -1,8 +1,6 @@
 const express = require("express");
 const app = express();
 
-// endpoint for jobs (the missing feature to switch jobs that architecture doesnt allow)
-
 app.get("/stages", (req: any, res: any) => {
   const stages: { id: number; title: string }[] = [];
 

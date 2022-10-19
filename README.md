@@ -1,1 +1,24 @@
-TODO: How to run
+# Information
+
+This is an application built to test refactoring skills of an engineer.
+
+Anything in backend/ folder is outside of the scope of the task. Its just for the sake of having a Database API. The app however requires it to be running in order to work properly.
+
+# A suggested approach:
+
+- Document all the findings together with a way to fix them.
+- If time promises implement the findings starting with the larger ones.
+
+# How to run
+
+`node` & `npm` are required to run these applications.
+
+Backend:
+
+1. Go to backend/ folder.
+2. Run: `npm install \ node index.js`
+
+Frontend:
+
+1. Go to frontend/ folder.
+2. Run: `npm install \ npm start`
