@@ -2,7 +2,9 @@ import { ReduxState } from "../store/store";
 import { useSelector, useDispatch } from "react-redux";
 import { memo, useState } from "react";
 import Modal from "react-modal";
-
+const modalRoot = document.createElement("div");
+modalRoot.setAttribute("id", "yourAppElement");
+document.body.appendChild(modalRoot);
 Modal.setAppElement("#yourAppElement");
 export const Applicants = ({ stageId }: { stageId: number }) => {
   const applicants = useSelector(({ applicants }: ReduxState) =>
