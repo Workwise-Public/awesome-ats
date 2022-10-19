@@ -25,35 +25,35 @@ app.get("/applicants", function (req, res) {
             current_stage_id: 2,
             description: "lorem ipsum",
             first_name: "Stewie",
-            id: 1,
+            id: 2,
             last_name: "Griffin"
         },
         {
             current_stage_id: 3,
             description: "lorem ipsum",
             first_name: "Jane",
-            id: 1,
+            id: 3,
             last_name: "Doe"
         },
         {
             current_stage_id: 4,
             description: "lorem ipsum",
             first_name: "Linus",
-            id: 1,
+            id: 4,
             last_name: "Torvalds"
         },
         {
             current_stage_id: 5,
             description: "lorem ipsum",
             first_name: "Morty",
-            id: 1,
+            id: 5,
             last_name: "Smith"
         },
         {
             current_stage_id: 2,
             description: "lorem ipsum",
             first_name: "Rick",
-            id: 1,
+            id: 6,
             last_name: "Sanchez"
         },
     ];
