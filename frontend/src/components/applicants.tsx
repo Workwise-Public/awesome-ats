@@ -1,4 +1,4 @@
-import { ReduxState } from "../store/store";
+import { ReduxState } from "../store/dataSTorage";
 import { useSelector, useDispatch } from "react-redux";
 import { memo, useState } from "react";
 import Modal from "react-modal";
@@ -154,13 +154,14 @@ const Item = memo(
     })();
     return (
       <div
+          className={(stageId === 5 ? " applicant-rejected" : "")}
         style={{
           border: "1px solid lightgray",
           padding: "10px",
           marginBottom: "20px",
         }}
       >
-        <b>{applicant.name}</b>
+        <b className={"applicantName"}>{applicant.name}</b>
         {/* Feature needed for allowing styling of an applicants description. */}
         {/* Ignore dangerouslySetInnerHTML because its a html prop and we use react */}
         <p dangerouslySetInnerHTML={{ __html: applicant.description }}></p>

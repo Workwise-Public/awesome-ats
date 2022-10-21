@@ -1,6 +1,6 @@
 import { createStore } from "redux";
 import axios from "axios";
-import { DATABASE_API_URL } from "../api/api";
+import { DATABASE_API } from "../api/api";
 
 export interface ReduxState {
   stages: { id: number; title: string }[];
@@ -71,7 +71,8 @@ function stateReducer(
 
     case "loadNewApplicant":
       // Update database to stay in sync.
-      axios.post(`${DATABASE_API_URL}/applicant`, action.payload);
+        /* catch errors */
+      axios.post(`${DATABASE_API}/applicant`, action.payload).catch();
 
       return {
         ...state,
@@ -83,4 +84,4 @@ function stateReducer(
   }
 }
 
-export var store = createStore(stateReducer);
+export var dataSTorage = createStore(stateReducer);

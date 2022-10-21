@@ -1,0 +1,24 @@
+* {
+    color: hsl(0, 0%, 10%);
+}
+
+#body {
+    margin: 0px;
+    min-width:1000px;
+}
+
+.applicant {
+
+}
+
+.applicantName {
+    font-size: 1rem;
+}
+
+.applicant-descr {
+    color: darkgray;
+}
+
+.applicant-rejected {
+    opacity: 0.5;
+}
